@@ -1,0 +1,7 @@
+1. At Line 167 of css :
+	top: 50px;
+
+  Add line 133 - 140:
+
+
+2. Add code line 63 - 73 in app.js

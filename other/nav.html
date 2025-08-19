@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive NavBar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Logo container */
+    .logo {
+      height: 40px;  /* Adjust the height of the logo container */
+    }
+
+    .logo img {
+      height: 100%;  /* Make sure the image fits within the container */
+      width: auto;   /* Maintain aspect ratio of the logo */
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links li {
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    /* Style for the dropdown */
+    .nav-links .dropdown {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .nav-links .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #444;
+      width: 200px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: 5px;
+    }
+
+    .nav-links .dropdown-content li {
+      padding: 10px;
+      border-bottom: 1px solid #555;
+    }
+
+    .nav-links .dropdown-content li:last-child {
+      border-bottom: none;
+    }
+
+    .nav-links .dropdown-content a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+
+    .nav-links .dropdown-content.show {
+      display: block;
+    }
+
+    .menu-icon {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 30px;
+      height: 25px;
+      justify-content: space-between;
+    }
+
+    .menu-icon .bar {
+      width: 100%;
+      height: 4px;
+      background-color: white;
+    }
+
+    .dropdown .dropdown-icon {
+      margin-left: 8px;
+      width: 12px;
+      height: 12px;
+      fill: white;
+      transition: transform 0.3s ease;
+    }
+
+    /* Rotate the dropdown icon when the menu is shown */
+    .dropdown.rotate .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background-color: #333;
+        flex-direction: column;
+        display: none;
+        text-align: center;
+        border-top: 1px solid #555;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        width: 100%;
+        padding: 20px 0;
+      }
+
+      .menu-icon {
+        display: flex;
+      }
+
+      .menu-icon.open .bar:nth-child(1) {
+        transform: rotate(45deg);
+        position: relative;
+        top: 10px;
+      }
+
+      .menu-icon.open .bar:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-icon.open .bar:nth-child(3) {
+        transform: rotate(-45deg);
+        position: relative;
+        top: -10px;
+      }
+
+      .nav-links li a {
+        font-size: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <!-- Replace 'logo.png' with the path to your logo image -->
+        <img src="logo.png" alt="Logo">
+      </div>
+      <div class="menu-icon" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" onclick="closeMenu()">Home</a></li>
+        <li><a href="#" onclick="closeMenu()">About</a></li>
+        <li class="dropdown">
+          <a href="javascript:void(0);" onclick="toggleDropdown()">Menu</a>
+          <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 16l-6-6h12l-6 6z"/>
+          </svg>
+          <ul class="dropdown-content" id="dropdown">
+            <li><a href="#">Youth</a></li>
+            <li><a href="#">Coffee</a></li>
+            <li><a href="#">The Bull</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="closeMenu()">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <script>
+    // Toggle the main menu visibility (hamburger menu)
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      const menuIcon = document.querySelector('.menu-icon');
+      
+      navLinks.classList.toggle('active');
+      menuIcon.classList.toggle('open');
+    }
+
+    // Toggle the dropdown menu visibility and rotate the icon
+    function toggleDropdown() {
+      const dropdown = document.querySelector('.dropdown');
+      const dropdownContent = document.getElementById('dropdown');
+
+      // Toggle the dropdown visibility
+      dropdownContent.classList.toggle('show');
+      
+      // Rotate the icon when the dropdown is shown
+      dropdown.classList.toggle('rotate');
+    }
+
+    // Close the menu when clicking on other items
+    function closeMenu() {
+      const navLinks = document.getElementById('nav-links');
+      const dropdownContent = document.getElementById('dropdown');
+      const menuIcon = document.querySelector('.menu-icon');
+      const dropdown = document.querySelector('.dropdown');
+      
+      // Close the main menu if it's open (for mobile)
+      navLinks.classList.remove('active');
+      menuIcon.classList.remove('open');
+
+      // Close the dropdown if it's open
+      dropdownContent.classList.remove('show');
+
+      // Rotate the dropdown icon back to its original position
+      dropdown.classList.remove('rotate');
+    }
+  </script>
+</body>
+</html>
